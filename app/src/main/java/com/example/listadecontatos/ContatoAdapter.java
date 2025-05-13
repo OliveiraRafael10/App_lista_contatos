@@ -25,11 +25,13 @@ public class ContatoAdapter extends RecyclerView.Adapter<ContatoAdapter.ContatoV
     private final ArrayList<Contato> listaDeContatos;
     private OnContatoClickListener listener;
     private final Context context;
+    private boolean listFavorite;
 
-    public ContatoAdapter(ArrayList<Contato> listaDeContatos, Context context, OnContatoClickListener listener) {
+    public ContatoAdapter(ArrayList<Contato> listaDeContatos, Context context, OnContatoClickListener listener, boolean listFavorite) {
         this.listaDeContatos = listaDeContatos;
         this.context = context;
         this.listener = listener;
+        this.listFavorite = listFavorite;
     }
 
 
@@ -62,6 +64,10 @@ public class ContatoAdapter extends RecyclerView.Adapter<ContatoAdapter.ContatoV
             public void onClick(View v) {
                 notifyItemChanged(holder.getAdapterPosition());
                 listener.onFavoritoClick(contato);
+                if(listFavorite){
+                    int position = holder.getAdapterPosition();
+                    listaDeContatos.remove(position);
+                }
             }
         });
 

@@ -49,18 +49,7 @@ public class MainActivity extends AppCompatActivity implements ContatoAdapter.On
                 favorites = !favorites;
                 if(favorites){
                     imgBtnFavorite.setImageResource(R.drawable.favorite_white_true);
-                    contatosFavoritos.clear();
-                    for(Contato contato: listaDeContatos){
-                        if(contato.isFavorite()){
-                            contatosFavoritos.add(contato);
-                        }
-                    }
-                    RecyclerView recyclerContatos = binding.recyclerView;
-                    recyclerContatos.setLayoutManager(new LinearLayoutManager(MainActivity.this));
-                    recyclerContatos.setHasFixedSize(true);
-
-                    contatoAdapter = new ContatoAdapter(contatosFavoritos, MainActivity.this, MainActivity.this);
-                    recyclerContatos.setAdapter(contatoAdapter);
+                    buscarFavoritos();
                 }
                 else{
                     imgBtnFavorite.setImageResource(R.drawable.favorite_white_false);
@@ -97,7 +86,7 @@ public class MainActivity extends AppCompatActivity implements ContatoAdapter.On
                     recyclerContatos.setLayoutManager(new LinearLayoutManager(MainActivity.this));
                     recyclerContatos.setHasFixedSize(true);
 
-                    contatoAdapter = new ContatoAdapter(listaDeContatos, MainActivity.this, MainActivity.this);
+                    contatoAdapter = new ContatoAdapter(listaDeContatos, MainActivity.this, MainActivity.this, false);
                     recyclerContatos.setAdapter(contatoAdapter);
 
                 }
@@ -180,5 +169,20 @@ public class MainActivity extends AppCompatActivity implements ContatoAdapter.On
                 Toast.makeText(MainActivity.this, "Erro ao conectar com o servidor", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    private void buscarFavoritos(){
+        contatosFavoritos.clear();
+        for(Contato contato: listaDeContatos){
+            if(contato.isFavorite()){
+                contatosFavoritos.add(contato);
+            }
+        }
+        RecyclerView recyclerContatos = binding.recyclerView;
+        recyclerContatos.setLayoutManager(new LinearLayoutManager(MainActivity.this));
+        recyclerContatos.setHasFixedSize(true);
+
+        contatoAdapter = new ContatoAdapter(contatosFavoritos, MainActivity.this, MainActivity.this, true);
+        recyclerContatos.setAdapter(contatoAdapter);
     }
 }
